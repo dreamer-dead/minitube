@@ -95,7 +95,7 @@ void YTChannel::maybeLoadfromAPI() {
 #if QT_VERSION >= 0x050000
     {
         QUrl &u = url;
-        QUrlQuery url;
+        QUrlQuery url(u);
 #endif
         url.addQueryItem("id", channelId);
         url.addQueryItem("part", "snippet");

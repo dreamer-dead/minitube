@@ -3,6 +3,8 @@ TEMPLATE = app
 VERSION = 2.4
 DEFINES += APP_VERSION="$$VERSION"
 
+DEFINES += APP_GOOGLE_API_KEY=AIzaSyDgOAEEy_BfZnJPT8XiIpPiBU_AyyMUjkU
+
 APP_NAME = Minitube
 DEFINES += APP_NAME="$$APP_NAME"
 
@@ -101,7 +103,8 @@ HEADERS += src/video.h \
     src/yt3listparser.h \
     src/ytchannel.h \
     src/yt3.h \
-    src/paginatedvideosource.h
+    src/paginatedvideosource.h \
+    src/transition_qt4_to_5.h
 SOURCES += src/main.cpp \
     src/searchlineedit.cpp \
     src/urllineedit.cpp \
@@ -170,7 +173,8 @@ SOURCES += src/main.cpp \
     src/yt3listparser.cpp \
     src/ytchannel.cpp \
     src/yt3.cpp \
-    src/paginatedvideosource.cpp
+    src/paginatedvideosource.cpp \
+    src/transition_qt4_to_5.cpp
 RESOURCES += resources.qrc
 DESTDIR = build/target/
 OBJECTS_DIR = build/obj/

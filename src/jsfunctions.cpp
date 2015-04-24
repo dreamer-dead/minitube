@@ -22,6 +22,7 @@ $END_LICENSE */
 #include "networkaccess.h"
 #include <QDesktopServices>
 #include "constants.h"
+#include "transition_qt4_to_5.h"
 
 namespace The {
 NetworkAccess* http();
@@ -75,7 +76,7 @@ QString JsFunctions::jsPath() {
 
 void JsFunctions::loadJs() {
     QUrl url(this->url);
-    url.addQueryItem("v", Constants::VERSION);
+    QUrl_addQueryItem(url, "v", Constants::VERSION);
     NetworkReply* reply = The::http()->get(url);
     connect(reply, SIGNAL(data(QByteArray)), SLOT(gotJs(QByteArray)));
     connect(reply, SIGNAL(error(QNetworkReply*)), SLOT(errorJs(QNetworkReply*)));

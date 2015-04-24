@@ -34,14 +34,17 @@ YT3::YT3() {
         QSettings settings;
         if (settings.contains("googleApiKey")) {
             keys << settings.value("googleApiKey").toString();
-            qDebug() << "API key from settings" << keys;
+            qWarning() << "API key from settings" << keys;
         }
     }
 
 #ifdef APP_GOOGLE_API_KEY
+    qWarning() << "KEY="<<STRINGIFY(APP_GOOGLE_API_KEY);
     if (keys.isEmpty()) {
         keys << STRINGIFY(APP_GOOGLE_API_KEY);
-        qDebug() << "built-in API key" << keys;
+        qWarning() << "built-in API key" << keys;
+    } else {
+        qWarning() << "KEY isnt empty";
     }
 #endif
 
@@ -68,7 +71,7 @@ void YT3::testApiKey() {
 #if QT_VERSION >= 0x050000
     {
         QUrl &u = url;
-        QUrlQuery url;
+        QUrlQuery url(u);
 #endif
         url.addQueryItem("part", "id");
         url.addQueryItem("chart", "mostPopular");
@@ -77,34 +80,39 @@ void YT3::testApiKey() {
         u.setQuery(url);
     }
 #endif
+    qWarning() << "testApiKey URL=" << url.toString();
     QObject *reply = The::http()->get(url);
     connect(reply, SIGNAL(finished(QNetworkReply*)), SLOT(testResponse(QNetworkReply*)));
 }
 
 void YT3::addApiKey(QUrl &url) {
+    qWarning() << "CURRENT API key" << key;
     if (key.isEmpty()) {
-        qDebug() << __PRETTY_FUNCTION__ << "empty key";
+        qWarning() << __PRETTY_FUNCTION__ << "empty key";
         return;
     }
 #if QT_VERSION >= 0x050000
     {
         QUrl &u = url;
-        QUrlQuery url(u);
+        QUrlQuery url_(u);
 #endif
-        url.addQueryItem("key", key);
+        url_.addQueryItem("key", key);
 #if QT_VERSION >= 0x050000
-        u.setQuery(url);
+        u.setQuery(url_);
     }
 #endif
+    qWarning() << "URL=" << url.query();
 }
 
 QUrl YT3::method(const QString &name) {
     QUrl url(baseUrl() + name);
     addApiKey(url);
+    qWarning() << "METHOD URL=" << url.toString();
     return url;
 }
 
 void YT3::testResponse(QNetworkReply *reply) {
+    qWarning() << "222 built-in API key" << keys;
     int status = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
     if (status != 200) {
         if (keys.isEmpty()) {
@@ -114,6 +122,6 @@ void YT3::testResponse(QNetworkReply *reply) {
         key = keys.takeFirst();
         testApiKey();
     } else {
-        qDebug() << "Using key" << key;
+        qWarning() << "Using key" << key;
     }
 }

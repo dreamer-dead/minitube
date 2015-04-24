@@ -61,12 +61,14 @@ YTSearch::YTSearch(SearchParams *searchParams, QObject *parent) :
 void YTSearch::loadVideos(int max, int startIndex) {
     aborted = false;
 
+    qWarning() << "111111";
     QUrl url = YT3::instance().method("search");
+    qWarning() << "111111----";
 
 #if QT_VERSION >= 0x050000
     {
         QUrl &u = url;
-        QUrlQuery url;
+        QUrlQuery url(u);
 #endif
 
         url.addQueryItem("part", "snippet");

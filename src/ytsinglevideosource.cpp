@@ -62,11 +62,13 @@ void YTSingleVideoSource::loadVideos(int max, int startIndex) {
             return;
         }
 
+        qWarning() << "33333333333";
         url = YT3::instance().method("videos");
+        qWarning() << "33333333333--------";
 #if QT_VERSION >= 0x050000
         {
             QUrl &u = url;
-            QUrlQuery url;
+            QUrlQuery url(u);
 #endif
             url.addQueryItem("part", "snippet");
             url.addQueryItem("id", videoId);
@@ -79,7 +81,7 @@ void YTSingleVideoSource::loadVideos(int max, int startIndex) {
 #if QT_VERSION >= 0x050000
         {
             QUrl &u = url;
-            QUrlQuery url;
+            QUrlQuery url(u);
 #endif
             url.addQueryItem("part", "snippet");
             url.addQueryItem("type", "video");

@@ -109,12 +109,14 @@ void PaginatedVideoSource::loadVideoDetails(const QList<Video*> &videos) {
         return;
     }
 
+    qWarning() << "44444444444";
     QUrl url = YT3::instance().method("videos");
+    qWarning() << "44444444444--------";
 
 #if QT_VERSION >= 0x050000
     {
         QUrl &u = url;
-        QUrlQuery url;
+        QUrlQuery url(u);
 #endif
 
         url.addQueryItem("part", "contentDetails,statistics");
